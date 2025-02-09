@@ -1,0 +1,12 @@
+employee_type,name,ID,payRate,pretaxDeductions,YTDEarnings,YTDTaxesPaid
+1,2,3,a,s,d,f
+1,2,3,4,5,6,7,8
+1,2,3,4
+Test,Test A b sj eiwop jsk,s192,10,100,500
+
+SALARY,Test,f103,20.00,0,8000,1812
+SALARY,Test,t189,-1,00,8000,1812
+SALARY,Test,t190,0,-1,8000,1812
+SALARY,Test,t191,0,1,-8000,1812
+SALARY,Test,t192,0,1,8000,-1812
+SALARY,Test,t193,0,1,8000

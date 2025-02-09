@@ -23,12 +23,23 @@ public interface IPayStub {
     double getTaxesPaid();
 
     /**
+     * Gets the YtdEarnings.
+     * @return the YtdEarnings
+     */
+    double getYtdEarnings();
+
+    /**
+     * Gets the Ytd paid taxes.
+     * @return the Ytd paid taxes
+     */
+    double getYtdTaxesPaid();
+
+    /**
      * Converts the PayStub object to a CSV string.
-     * 
+     *
      * Format of the CSV string is: "employee_name,net_pay,taxes,ytd_earnings,ytd_taxes_paid"
-     * 
+     *
      * @return the CSV string
      */
     String toCSV();
-
 }

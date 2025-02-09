@@ -22,10 +22,37 @@ public final class Builder {
      * @return the employee object
      */
     public static IEmployee buildEmployeeFromCSV(String csv) {
+        String[] parts = csv.split(",");
+        double maxDataLength = 7;
 
-        return null;
+        if (parts.length != maxDataLength) {
+            // Provides more or less information
+            throw new IllegalArgumentException("Invalid data length.");
+        }
+        double payRate, pretaxDeductions, YTDEarnings, YTDTaxesPaid;
+        try {
+            payRate = Double.parseDouble(parts[3]);
+            pretaxDeductions = Double.parseDouble(parts[4]);
+            YTDEarnings = Double.parseDouble(parts[5]);
+            YTDTaxesPaid = Double.parseDouble(parts[6]);
+            // Check double numbers cannot be negative
+            if (payRate < 0 || pretaxDeductions < 0 || YTDEarnings < 0 || YTDTaxesPaid < 0) {
+                throw new IllegalArgumentException("Negative value found in numeric fields.");
+            }
+        } catch(NumberFormatException e) {
+            // catch around converting strings to doubles
+            throw new NumberFormatException(e.getMessage());
+        }
+        // Build the appropriate employee object
+        switch (EmployeeType.valueOf(parts[0])) {
+            case HOURLY:
+                return new HourlyEmployee(parts[1], parts[2], payRate, pretaxDeductions, YTDEarnings, YTDTaxesPaid);
+            case SALARY:
+                return new SalaryEmployee(parts[1], parts[2], payRate, pretaxDeductions, YTDEarnings, YTDTaxesPaid);
+            default:
+                throw new IllegalArgumentException("Unknown employee type " + parts[0]);
+        }
     }
-
 
 
    /**
@@ -35,7 +62,24 @@ public final class Builder {
      * @return a TimeCard object
      */
     public static ITimeCard buildTimeCardFromCSV(String csv) {
-    
-        return null;
+        String[] parts = csv.split(",");
+        double hours;
+        double maxDataLength = 2;
+
+        if (parts.length != maxDataLength) {
+            // Provides more or less information
+            throw new IllegalArgumentException("Invalid data length.");
+        }
+        try {
+            hours = Double.parseDouble(parts[1]);
+            if (hours > 0) {
+                return new TimeCard(parts[0], hours);
+            } else {
+                throw new IllegalArgumentException("worked hours should be greater than zero.");
+            }
+        } catch (NumberFormatException e) {
+            // catch around converting strings to doubles
+            throw new NumberFormatException(e.getMessage());
+        }
     }
 }
