@@ -28,23 +28,12 @@ public class SalaryEmployee extends Employee {
      * For salary employees, it is pay rate divided by 24 for two payments every month.
      * All numbers (across all methods) are rounded to the nearest cent. (2 decimal places)
      * @param hoursWorked   the hours worked for the pay period
-     * @return  the pay stub for the current pay period
+     * @return  the gross pay for the current pay period
      */
     @Override
-    protected IPayStub calculateGrossPay(double hoursWorked) {
-        // taxRate are calculated as 1.45% for medicare, 6.2% for social security,
-        // and 15% for withholding. or 22.65% total.*/
-        double taxRate = 0.2265;
-        // pay = payRate / salaryWorkWeeks - pretaxDeductions
-        double pay = decimalRoundUp((this.getPayRate() / salaryWorkWeeks) - this.getPretaxDeductions());
-        double taxes = decimalRoundUp(pay * taxRate);
-        double netPay = decimalRoundUp(pay - taxes);
-        // Update the Employee's YTDEarnings
-        this.setYTDEarnings(decimalRoundUp(this.getYTDEarnings() + netPay));
-        // Update the Employee's YTDTaxesPaid
-        this.setYTDTaxesPaid(decimalRoundUp(this.getYTDTaxesPaid() + taxes));
-
-        return new PayStub(this.getName(), netPay, taxes, this.getYTDEarnings(), this.getYTDTaxesPaid());
+    protected double calculateGrossPay(double hoursWorked) {
+        // grossPay = payRate / salaryWorkWeeks - pretaxDeductions
+        return  (this.getPayRate() / salaryWorkWeeks) - this.getPretaxDeductions();
     }
 
 }

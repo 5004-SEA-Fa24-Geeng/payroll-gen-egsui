@@ -22,6 +22,9 @@ public abstract class Employee implements IEmployee {
     private double ytdTaxesPaid;
     /** Employee's type. */
     private final EmployeeType employeeType;
+    /** taxRate are calculated as 1.45% for medicare, 6.2% for social security,
+        and 15% for withholding. or 22.65% total. */
+    private static double taxRate = 0.2265;
 
     /**
      * Constructor for Employee.
@@ -31,6 +34,7 @@ public abstract class Employee implements IEmployee {
      * @param pretaxDeductions  pretax deductions for the employee
      * @param ytdEarnings   the employee's YTD earnings
      * @param ytdTaxesPaid  the employee's YTD paid taxes
+     * @param employeeType  the employee's Type
      */
     public Employee(String name, String id, double payRate, double pretaxDeductions,
                        double ytdEarnings, double ytdTaxesPaid, EmployeeType employeeType) {
@@ -137,7 +141,7 @@ public abstract class Employee implements IEmployee {
      * @param hoursWorked   the hours worked for the pay period
      * @return  the pay stub for the current pay period
      */
-    protected abstract IPayStub calculateGrossPay(double hoursWorked);
+    protected abstract double calculateGrossPay(double hoursWorked);
 
     /**
      * Runs the employee's payroll.
@@ -153,7 +157,20 @@ public abstract class Employee implements IEmployee {
         if (hoursWorked <= 0) {
             throw new IllegalArgumentException("Worked hours must be greater than 0");
         } else {
-            return calculateGrossPay(hoursWorked);
+            double netPay;
+            double taxes;
+            double grossPay;
+
+            grossPay = calculateGrossPay(hoursWorked);
+            taxes = decimalRoundUp(grossPay * taxRate);
+            // Final net pay is calculated as pay - pretaxDeductions - taxes
+            netPay = decimalRoundUp(grossPay - taxes);
+            // Update the Employee's YTDEarnings
+            this.setYTDEarnings(decimalRoundUp(this.getYTDEarnings() + netPay));
+            // Update the Employee's YTDTaxesPaid
+            this.setYTDTaxesPaid(decimalRoundUp(this.getYTDTaxesPaid() + taxes));
+
+            return new PayStub(this.getName(), netPay, taxes, this.getYTDEarnings(), this.getYTDTaxesPaid());
         }
     }
 

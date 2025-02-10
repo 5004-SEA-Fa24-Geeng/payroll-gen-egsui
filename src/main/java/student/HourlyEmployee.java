@@ -34,32 +34,21 @@ public class HourlyEmployee extends Employee {
      * then payRate * 1.5 * (hoursWorked - 40) for overtime.
      * All numbers (across all methods) are rounded to the nearest cent. (2 decimal places)
      * @param hoursWorked   the hours worked for the pay period
-     * @return  the pay stub for the current pay period
+     * @return  the gross pay for the current pay period
      */
     @Override
-    protected IPayStub calculateGrossPay(double hoursWorked) {
-        double pay;
-        double netPay;
-        double taxes;
+    protected double calculateGrossPay(double hoursWorked) {
+        double grossPay;
 
         // Employee who works not over max working hours, pay = workedHours * payRate - pretaxDeductions
         if (hoursWorked <= maxWorkHours) {
-            pay = decimalRoundUp(hoursWorked * getPayRate() - getPretaxDeductions());
+            grossPay = hoursWorked * getPayRate() - getPretaxDeductions();
         } else {
             // Employee who works over max working hours, the overtime work hours should apply new pay rate
-            // pay = maxWorkHours * payRate - pretaxDeductions + (workedHours - maxWorkHours) * overWorkPayRate
-            pay = decimalRoundUp(maxWorkHours * getPayRate())
-                    + decimalRoundUp((hoursWorked - maxWorkHours) * getPayRate() * overWorkPayRate
-                            - getPretaxDeductions());
+            // grossPay = maxWorkHours * payRate - pretaxDeductions + (workedHours - maxWorkHours) * overWorkPayRate
+            grossPay = maxWorkHours * getPayRate() + (hoursWorked - maxWorkHours) * getPayRate() * overWorkPayRate
+                    - getPretaxDeductions();
         }
-        taxes = decimalRoundUp(pay * taxRate);
-        // Final net pay is calculated as pay - pretaxDeductions - taxes
-        netPay = decimalRoundUp(pay - taxes);
-        // Update the Employee's YTDEarnings
-        this.setYTDEarnings(decimalRoundUp(this.getYTDEarnings() + netPay));
-        // Update the Employee's YTDTaxesPaid
-        this.setYTDTaxesPaid(decimalRoundUp(this.getYTDTaxesPaid() + taxes));
-
-        return new PayStub(this.getName(), netPay, taxes, this.getYTDEarnings(), this.getYTDTaxesPaid());
+        return grossPay;
     }
 }
