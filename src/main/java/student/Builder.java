@@ -77,11 +77,6 @@ public final class Builder {
         try {
             hours = Double.parseDouble(parts[1]);
             return new TimeCard(parts[0], hours);
-//            if (hours >= 0) {
-//                return new TimeCard(parts[0], hours);
-//            } else {
-//                throw new IllegalArgumentException("worked hours should be greater than zero.");
-//            }
         } catch (NumberFormatException e) {
             // catch around converting strings to doubles
             throw new NumberFormatException(e.getMessage());
