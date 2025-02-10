@@ -19,9 +19,7 @@ public class SalaryEmployee extends Employee {
      */
     public SalaryEmployee(String name, String id, double payRate, double ytdEarnings,
                           double ytdTaxesPaid, double pretaxDeductions) {
-        super(name, id, payRate, pretaxDeductions, ytdEarnings, ytdTaxesPaid);
-        // set employeeType for our new SalaryEmployee
-        this.setEmployeeType(EmployeeType.SALARY.name());
+        super(name, id, payRate, pretaxDeductions, ytdEarnings, ytdTaxesPaid, EmployeeType.SALARY);
     }
 
     /**

@@ -8,8 +8,6 @@ import java.math.RoundingMode;
  */
 public abstract class Employee implements IEmployee {
 
-    /** Employee's type. */
-    private String employeeType;
     /** Employee's name. */
     private final String name;
     /** Employee's ID. */
@@ -22,6 +20,8 @@ public abstract class Employee implements IEmployee {
     private double ytdEarnings;
     /** Employee's YTD paid taxes. */
     private double ytdTaxesPaid;
+    /** Employee's type. */
+    private final EmployeeType employeeType;
 
     /**
      * Constructor for Employee.
@@ -33,14 +33,14 @@ public abstract class Employee implements IEmployee {
      * @param ytdTaxesPaid  the employee's YTD paid taxes
      */
     public Employee(String name, String id, double payRate, double pretaxDeductions,
-                       double ytdEarnings, double ytdTaxesPaid) {
+                       double ytdEarnings, double ytdTaxesPaid, EmployeeType employeeType) {
         this.name = name;
         this.id = id;
         this.payRate = payRate;
         this.pretaxDeductions = pretaxDeductions;
         this.ytdEarnings = ytdEarnings;
         this.ytdTaxesPaid = ytdTaxesPaid;
-        this.employeeType = null;
+        this.employeeType = employeeType;
     }
 
     /**
@@ -81,7 +81,7 @@ public abstract class Employee implements IEmployee {
      */
     @Override
     public String getEmployeeType() {
-        return this.employeeType;
+        return this.employeeType.toString();
     }
 
     /**
@@ -165,20 +165,6 @@ public abstract class Employee implements IEmployee {
     public double decimalRoundUp(double val) {
         int newScale = 2;
         return new BigDecimal(val).setScale(newScale, RoundingMode.HALF_UP).doubleValue();
-    }
-
-    /**
-     * Set the employee's type.
-     * @param employeeType  the employee's type
-     */
-    protected void setEmployeeType(String employeeType) {
-        switch (EmployeeType.valueOf(employeeType)) {
-            case HOURLY, SALARY:
-                this.employeeType = employeeType;
-                break;
-            default:
-                throw new IllegalArgumentException("Unknown employee type " + employeeType);
-        }
     }
 
     /**

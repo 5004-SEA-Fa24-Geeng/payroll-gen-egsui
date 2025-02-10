@@ -13,9 +13,9 @@ class HourlyEmployeeTest {
     @BeforeEach
     void setUp() {
         hourlyEmployee1 = new HourlyEmployee("TestNameOne", "ID123456",
-                60.34, 300,12000,4000);
+                60.34, 12000,4000,300);
         hourlyEmployee2 = new HourlyEmployee("TestNameTwo", "ID000",
-                20, 400,5000,3000);
+                20, 5000,3000,400);
     }
 
     @Test
@@ -40,12 +40,6 @@ class HourlyEmployeeTest {
     void getEmployeeType() {
         assertEquals("HOURLY", hourlyEmployee1.getEmployeeType());
         assertEquals("HOURLY", hourlyEmployee2.getEmployeeType());
-    }
-
-    @Test
-    void setEmployeeType() {
-        assertThrows(IllegalArgumentException.class, () -> hourlyEmployee1.setEmployeeType("TEST"));
-        assertThrows(IllegalArgumentException.class, () -> hourlyEmployee2.setEmployeeType("INVALID"));
     }
 
     @Test

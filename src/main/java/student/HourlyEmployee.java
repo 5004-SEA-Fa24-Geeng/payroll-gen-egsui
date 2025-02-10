@@ -24,9 +24,7 @@ public class HourlyEmployee extends Employee {
      */
     public HourlyEmployee(String name, String id, double payRate, double ytdEarnings,
                           double ytdTaxesPaid, double pretaxDeductions) {
-        super(name, id, payRate, pretaxDeductions, ytdEarnings, ytdTaxesPaid);
-        // set employeeType for our new HourlyEmployee
-        this.setEmployeeType(EmployeeType.HOURLY.name());
+        super(name, id, payRate, pretaxDeductions, ytdEarnings, ytdTaxesPaid, EmployeeType.HOURLY);
     }
 
     /**

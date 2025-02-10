@@ -42,12 +42,6 @@ class SalaryEmployeeTest {
     }
 
     @Test
-    void setEmployeeType() {
-        assertThrows(IllegalArgumentException.class, () -> salaryEmployee1.setEmployeeType("TEST"));
-        assertThrows(IllegalArgumentException.class, () -> salaryEmployee2.setEmployeeType("INVALID"));
-    }
-
-    @Test
     void getYTDEarnings() {
         assertEquals(12000, salaryEmployee1.getYTDEarnings());
         assertEquals(5000, salaryEmployee2.getYTDEarnings());
