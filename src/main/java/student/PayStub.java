@@ -1,7 +1,7 @@
 package student;
 
 /**
- * A class to create PayStub
+ * A class to create PayStub.
  */
 public class PayStub implements IPayStub {
     /** the employee's name. */

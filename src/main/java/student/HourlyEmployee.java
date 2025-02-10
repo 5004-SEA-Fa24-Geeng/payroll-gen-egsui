@@ -7,11 +7,11 @@ public class HourlyEmployee extends Employee {
 
     /** taxRate are calculated as 1.45% for medicare, 6.2% for social security,
         and 15% for withholding. or 22.65% total.*/
-    double taxRate = 0.2265;
+    private double taxRate = 0.2265;
     /** Maximum work hours are 40. */
-    double maxWorkHours = 40;
+    private double maxWorkHours = 40;
     /** overworked hours should be paid by PayRate * 1.5. */
-    double overWorkPayRate = 1.50;
+    private double overWorkPayRate = 1.50;
 
     /**
      * Constructor for HourlyEmployee.

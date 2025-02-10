@@ -8,23 +8,23 @@ import java.math.RoundingMode;
  */
 public abstract class Employee implements IEmployee {
 
-    /** Employee's type */
+    /** Employee's type. */
     private String employeeType;
-    /** Employee's name */
+    /** Employee's name. */
     private final String name;
-    /** Employee's ID */
+    /** Employee's ID. */
     private final String id;
-    /** Employee's pay rate */
+    /** Employee's pay rate. */
     private final double payRate;
-    /** Employee's pretax deductions */
+    /** Employee's pretax deductions. */
     private final double pretaxDeductions;
-    /** Employee's YTD earnings */
+    /** Employee's YTD earnings. */
     private double ytdEarnings;
-    /** Employee's YTD paid taxes */
+    /** Employee's YTD paid taxes. */
     private double ytdTaxesPaid;
 
     /**
-     * Constructor for Employee
+     * Constructor for Employee.
      * @param name  the employee's name
      * @param id    the employee's ID
      * @param payRate   pay rate for the employee
