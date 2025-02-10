@@ -6,7 +6,7 @@ package student;
 public class SalaryEmployee extends Employee {
 
     /** The pay for SalaryEmployee is the payRate divided by 24 weeks. */
-    private double salaryWorkWeeks = 24;
+    private final double salaryWorkWeeks = 24;
 
     /**
      * Constructor for SalaryEmployee.
