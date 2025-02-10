@@ -166,9 +166,9 @@ public abstract class Employee implements IEmployee {
             // Final net pay is calculated as pay - pretaxDeductions - taxes
             netPay = decimalRoundUp(grossPay - taxes);
             // Update the Employee's YTDEarnings
-            this.ytdEarnings = decimalRoundUp(this.getYTDEarnings() + netPay);
+            setYTDEarnings(decimalRoundUp(this.getYTDEarnings() + netPay));
             // Update the Employee's YTDTaxesPaid
-            this.ytdTaxesPaid = decimalRoundUp(this.getYTDTaxesPaid() + taxes);
+            setYTDTaxesPaid(decimalRoundUp(this.getYTDTaxesPaid() + taxes));
 
             return new PayStub(this.getName(), netPay, taxes, this.getYTDEarnings(), this.getYTDTaxesPaid());
         }
@@ -180,16 +180,15 @@ public abstract class Employee implements IEmployee {
      * @return  the rounded double value
      */
     public double decimalRoundUp(double val) {
-        BigDecimal bd = new BigDecimal(val).setScale(2, RoundingMode.HALF_UP);
-        return bd.doubleValue();
+        return new BigDecimal(val).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
     /**
      * Set the employee's YTD earnings.
-     * @param ytdEarnings  the employee's YTD earnings
+     * @param earnings  the employee's YTD earnings
      */
-    protected void setYTDEarnings(double ytdEarnings) {
-        this.ytdEarnings = ytdEarnings;
+    protected void setYTDEarnings(double earnings) {
+        this.ytdEarnings = earnings;
     }
 
     /**
