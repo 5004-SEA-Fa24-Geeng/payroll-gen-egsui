@@ -87,9 +87,9 @@ public final class PayrollGenerator {
         // as it is invalid, but if is 0, you still generate a paystub, but the amount is 0.
 
         //YOUR CODE HERE
-        if (employees == null || timeCardList == null) {
-            throw new IllegalArgumentException("No employees or timeCards found");
-        }
+//        if (employees == null || timeCardList == null) {
+//            throw new IllegalArgumentException("No employees or timeCards found");
+//        }
         for (ITimeCard timeCard : timeCardList) {
             String employeeID = timeCard.getEmployeeID();
             try {
