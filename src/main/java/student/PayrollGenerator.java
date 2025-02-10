@@ -87,44 +87,45 @@ public final class PayrollGenerator {
         // as it is invalid, but if is 0, you still generate a paystub, but the amount is 0.
 
         //YOUR CODE HERE
-//        if (employees == null || timeCardList == null) {
-//            throw new IllegalArgumentException("No employees or timeCards found");
-//        }
-        for (ITimeCard timeCard : timeCardList) {
-            String employeeID = timeCard.getEmployeeID();
-            try {
-                List<IEmployee> target = employees.stream()
-                        .filter(employee -> employee.getID().equals(employeeID)).toList();
-                // Target employee ID should be unique.
-                if (target.size() == 1) {
-                    IEmployee employee = target.get(0);
-                    IPayStub payStub = employee.runPayroll(timeCard.getHoursWorked());
-                    if (payStub != null) {
-                        payStubs.add(payStub);
+        if (employees != null && timeCardList != null) {
+            for (ITimeCard timeCard : timeCardList) {
+                String employeeID = timeCard.getEmployeeID();
+                try {
+                    List<IEmployee> target = employees.stream()
+                            .filter(employee -> employee.getID().equals(employeeID)).toList();
+                    // Target employee ID should be unique.
+                    if (target.size() == 1) {
+                        IEmployee employee = target.get(0);
+                        IPayStub payStub = employee.runPayroll(timeCard.getHoursWorked());
+                        if (payStub != null) {
+                            payStubs.add(payStub);
+                        } else {
+                            throw new IllegalArgumentException("Employee "
+                                    + employeeID + " unable to create a pay stub");
+                        }
+                    } else if (target.size() > 1) {
+                        throw new IllegalArgumentException("There are more than one employee with the same ID");
                     } else {
-                        throw new IllegalArgumentException("Employee "
-                                + employeeID + " unable to create a pay stub");
+                        throw new IllegalArgumentException("There is no corresponding employee with the same ID");
                     }
-                } else if (target.size() > 1) {
-                    throw new IllegalArgumentException("There are more than one employee with the same ID");
-                } else {
-                    throw new IllegalArgumentException("There is no corresponding employee with the same ID");
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Invalid payStub: " + e.getMessage());
                 }
-            } catch (IllegalArgumentException e) {
-                System.out.println("Invalid payStub: " + e.getMessage());
             }
-            // now save out employees to a new file
-
-            employeeLines = employees.stream().map(IEmployee::toCSV).collect(Collectors.toList());
-            employeeLines.add(0, FileUtil.EMPLOYEE_HEADER);
-            FileUtil.writeFile(arguments.getEmployeeFile(), employeeLines);
-
-            // now save out the pay stubs
-            List<String> payStubLines = payStubs.stream().filter(x -> x != null).map(IPayStub::toCSV)
-                    .collect(Collectors.toList());
-            payStubLines.add(0, FileUtil.PAY_STUB_HEADER);
-            FileUtil.writeFile(arguments.getPayrollFile(), payStubLines);
         }
+        // now save out employees to a new file
+
+        employeeLines = employees.stream().map(IEmployee::toCSV).collect(Collectors.toList());
+        employeeLines.add(0, FileUtil.EMPLOYEE_HEADER);
+        FileUtil.writeFile(arguments.getEmployeeFile(), employeeLines);
+
+        // now save out the pay stubs
+        List<String> payStubLines = payStubs.stream().filter(x -> x != null).map(IPayStub::toCSV)
+                .collect(Collectors.toList());
+        payStubLines.add(0, FileUtil.PAY_STUB_HEADER);
+        FileUtil.writeFile(arguments.getPayrollFile(), payStubLines);
+
+
     }
 
 
