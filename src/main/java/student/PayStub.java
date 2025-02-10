@@ -3,19 +3,27 @@ package student;
 /**
  * A class to create PayStub
  */
-public class PayStub implements IPayStub{
-    protected String name;
-    protected double netPay, taxes, ytdEarnings, ytdTaxesPaid;
+public class PayStub implements IPayStub {
+    /** the employee's name. */
+    private final String name;
+    /** the employee's net pay. */
+    private final double netPay;
+    /** the employee's taxes. */
+    private final double taxes;
+    /** the employee's YTD earnings. */
+    private final double ytdEarnings;
+    /** the employee's YTD paid taxes. */
+    private final double ytdTaxesPaid;
 
     /**
-     * Constructor for PayStub
+     * Constructor for PayStub.
      * @param employeeName  the employee's name
      * @param netPay    the pay for the current pay period
      * @param taxes     the taxes paid for the current pay period
      * @param ytdEarnings   the YTD earnings
      * @param ytdTaxesPaid  the YTD paid taxes
      */
-    public PayStub(String employeeName,double netPay, double taxes, double ytdEarnings, double ytdTaxesPaid) {
+    public PayStub(String employeeName, double netPay, double taxes, double ytdEarnings, double ytdTaxesPaid) {
         this.name = employeeName;
         this.netPay = netPay;
         this.taxes = taxes;
@@ -60,7 +68,7 @@ public class PayStub implements IPayStub{
      * @return the CSV string
      */
     public String toCSV() {
-        return this.name + "," + String.format("%.2f",netPay) + "," + String.format("%.2f",taxes) + "," +
-                String.format("%.2f",ytdEarnings) + "," + String.format("%.2f",ytdTaxesPaid);
+        return this.name + "," + String.format("%.2f", netPay) + "," + String.format("%.2f", taxes) + ","
+                + String.format("%.2f", ytdEarnings) + "," + String.format("%.2f", ytdTaxesPaid);
     }
 }

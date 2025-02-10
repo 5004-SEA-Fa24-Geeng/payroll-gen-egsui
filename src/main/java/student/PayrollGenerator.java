@@ -68,7 +68,7 @@ public final class PayrollGenerator {
         }
 
         // try-catch for building TimeCard From CSV
-        try{
+        try {
             timeCardList = timeCards.stream().map(Builder::buildTimeCardFromCSV).toList();
             if (timeCardList.isEmpty()) {
                 // empty CSV file
@@ -100,7 +100,8 @@ public final class PayrollGenerator {
                         if (payStub != null) {
                             payStubs.add(payStub);
                         } else {
-                            throw new IllegalArgumentException("Employee " + employeeID + " unable to create a pay stub");
+                            throw new IllegalArgumentException("Employee "
+                                    + employeeID + " unable to create a pay stub");
                         }
                     } else if (target.size() > 1) {
                         throw new IllegalArgumentException("There are more than one employee with the same ID");

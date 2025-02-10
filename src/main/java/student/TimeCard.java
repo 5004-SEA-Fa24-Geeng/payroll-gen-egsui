@@ -1,19 +1,21 @@
 package student;
 
 /**
- * A class to create TimeCard
+ * A class to create TimeCard.
  */
-public class TimeCard implements ITimeCard{
-    protected String ID;
-    protected double hoursWorked;
+public class TimeCard implements ITimeCard {
+    /** The employee's ID. */
+    private final String id;
+    /** The worked hours. */
+    private final double hoursWorked;
 
     /**
-     * Constructor for TimeCard
-     * @param ID    the employee's ID
+     * Constructor for TimeCard.
+     * @param id    the employee's ID
      * @param hoursWorked   the employee's worked hours
      */
-    public TimeCard(String ID, double hoursWorked) {
-        this.ID = ID;
+    public TimeCard(String id, double hoursWorked) {
+        this.id = id;
         this.hoursWorked = hoursWorked;
     }
 
@@ -23,7 +25,7 @@ public class TimeCard implements ITimeCard{
      * @return the employee ID
      */
     public String getEmployeeID() {
-        return this.ID;
+        return this.id;
     }
 
     /**

@@ -5,6 +5,14 @@ package student;
  */
 public class HourlyEmployee extends Employee {
 
+    /** taxRate are calculated as 1.45% for medicare, 6.2% for social security,
+        and 15% for withholding. or 22.65% total.*/
+    double taxRate = 0.2265;
+    /** Maximum work hours are 40. */
+    double maxWorkHours = 40;
+    /** overworked hours should be paid by PayRate * 1.5. */
+    double overWorkPayRate = 1.50;
+
     /**
      * Constructor for HourlyEmployee.
      * @param name  the employee's name
@@ -35,6 +43,7 @@ public class HourlyEmployee extends Employee {
         double pay;
         double netPay;
         double taxes;
+
         // Employee who works not over max working hours, pay = workedHours * payRate - pretaxDeductions
         if (hoursWorked <= maxWorkHours) {
             pay = decimalRoundUp(hoursWorked * getPayRate() - getPretaxDeductions());
@@ -49,10 +58,10 @@ public class HourlyEmployee extends Employee {
         // Final net pay is calculated as pay - pretaxDeductions - taxes
         netPay = decimalRoundUp(pay - taxes);
         // Update the Employee's YTDEarnings
-        this.setYTDEarnings(decimalRoundUp(this.ytdEarnings + netPay));
+        this.setYTDEarnings(decimalRoundUp(this.getYTDEarnings() + netPay));
         // Update the Employee's YTDTaxesPaid
-        this.setYTDTaxesPaid(decimalRoundUp(this.ytdTaxesPaid + taxes));
+        this.setYTDTaxesPaid(decimalRoundUp(this.getYTDTaxesPaid() + taxes));
 
-        return new PayStub(this.name, netPay, taxes, this.getYTDEarnings(), this.getYTDTaxesPaid());
+        return new PayStub(this.getName(), netPay, taxes, this.getYTDEarnings(), this.getYTDTaxesPaid());
     }
 }

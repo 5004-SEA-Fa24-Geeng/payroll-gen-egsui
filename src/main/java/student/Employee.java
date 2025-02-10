@@ -8,29 +8,20 @@ import java.math.RoundingMode;
  */
 public abstract class Employee implements IEmployee {
 
-    /** taxRate are calculated as 1.45% for medicare, 6.2% for social security,
-     *  and 15% for withholding. or 22.65% total.*/
-    protected static double taxRate = 0.2265;
-    /** Maximum work hours are 40 */
-    protected static double maxWorkHours = 40;
-    /** overworked hours should be paid by PayRate * 1.5 */
-    protected static double overWorkPayRate = 1.50;
-    /** The pay for SalaryEmployee is the payRate divided by 24 weeks. */
-    protected static double salaryWorkWeeks = 24;
     /** Employee's type */
-    protected String employeeType;
+    private String employeeType;
     /** Employee's name */
-    protected String name;
+    private final String name;
     /** Employee's ID */
-    protected String id;
+    private final String id;
     /** Employee's pay rate */
-    protected double payRate;
+    private final double payRate;
     /** Employee's pretax deductions */
-    protected double pretaxDeductions;
+    private final double pretaxDeductions;
     /** Employee's YTD earnings */
-    protected double ytdEarnings;
+    private double ytdEarnings;
     /** Employee's YTD paid taxes */
-    protected double ytdTaxesPaid;
+    private double ytdTaxesPaid;
 
     /**
      * Constructor for Employee
@@ -38,17 +29,18 @@ public abstract class Employee implements IEmployee {
      * @param id    the employee's ID
      * @param payRate   pay rate for the employee
      * @param pretaxDeductions  pretax deductions for the employee
-     * @param YTDEarnings   the employee's YTD earnings
-     * @param YTDTaxesPaid  the employee's YTD paid taxes
+     * @param ytdEarnings   the employee's YTD earnings
+     * @param ytdTaxesPaid  the employee's YTD paid taxes
      */
     public Employee(String name, String id, double payRate, double pretaxDeductions,
-                       double YTDEarnings, double YTDTaxesPaid) {
+                       double ytdEarnings, double ytdTaxesPaid) {
         this.name = name;
         this.id = id;
         this.payRate = payRate;
         this.pretaxDeductions = pretaxDeductions;
-        this.ytdEarnings = YTDEarnings;
-        this.ytdTaxesPaid = YTDTaxesPaid;
+        this.ytdEarnings = ytdEarnings;
+        this.ytdTaxesPaid = ytdTaxesPaid;
+        this.employeeType = null;
     }
 
     /**
@@ -191,18 +183,18 @@ public abstract class Employee implements IEmployee {
 
     /**
      * Set the employee's YTD earnings.
-     * @param YTDEarnings  the employee's YTD earnings
+     * @param ytdEarnings  the employee's YTD earnings
      */
-    protected void setYTDEarnings(double YTDEarnings) {
-        this.ytdEarnings = YTDEarnings;
+    protected void setYTDEarnings(double ytdEarnings) {
+        this.ytdEarnings = ytdEarnings;
     }
 
     /**
      * Set the employee's YTD paid taxes.
-     * @param YTDTaxesPaid  the employee's YTD paid taxes
+     * @param ytdTaxesPaid  the employee's YTD paid taxes
      */
-    protected void setYTDTaxesPaid(double YTDTaxesPaid) {
-        this.ytdTaxesPaid = YTDTaxesPaid;
+    protected void setYTDTaxesPaid(double ytdTaxesPaid) {
+        this.ytdTaxesPaid = ytdTaxesPaid;
     }
 
 }

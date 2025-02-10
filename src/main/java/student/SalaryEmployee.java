@@ -5,18 +5,21 @@ package student;
  */
 public class SalaryEmployee extends Employee {
 
+    /** The pay for SalaryEmployee is the payRate divided by 24 weeks. */
+    double salaryWorkWeeks = 24;
+
     /**
      * Constructor for SalaryEmployee.
      * @param name  the employee's name
-     * @param ID    the employee's ID
+     * @param id    the employee's ID
      * @param payRate   the employee's pay rate
      * @param pretaxDeductions  the employee's pretax deductions
-     * @param YTDEarnings   the employee's YTD earnings
-     * @param YTDTaxesPaid  the employee's YTD Paid Taxes
+     * @param ytdEarnings   the employee's YTD earnings
+     * @param ytdTaxesPaid  the employee's YTD Paid Taxes
      */
-    public SalaryEmployee(String name, String ID, double payRate, double pretaxDeductions,
-                          double YTDEarnings, double YTDTaxesPaid) {
-        super(name, ID, payRate, pretaxDeductions, YTDEarnings, YTDTaxesPaid);
+    public SalaryEmployee(String name, String id, double payRate, double pretaxDeductions,
+                          double ytdEarnings, double ytdTaxesPaid) {
+        super(name, id, payRate, pretaxDeductions, ytdEarnings, ytdTaxesPaid);
         // set employeeType for our new SalaryEmployee
         this.setEmployeeType(EmployeeType.SALARY.name());
     }
@@ -31,16 +34,19 @@ public class SalaryEmployee extends Employee {
      */
     @Override
     protected IPayStub calculateGrossPay(double hoursWorked) {
+        // taxRate are calculated as 1.45% for medicare, 6.2% for social security,
+        // and 15% for withholding. or 22.65% total.*/
+        double taxRate = 0.2265;
         // pay = payRate / salaryWorkWeeks - pretaxDeductions
-        double pay = decimalRoundUp((this.payRate / salaryWorkWeeks) - this.pretaxDeductions);
+        double pay = decimalRoundUp((this.getPayRate() / salaryWorkWeeks) - this.getPretaxDeductions());
         double taxes = decimalRoundUp(pay * taxRate);
         double netPay = decimalRoundUp(pay - taxes);
         // Update the Employee's YTDEarnings
-        this.setYTDEarnings(decimalRoundUp(this.ytdEarnings + netPay));
+        this.setYTDEarnings(decimalRoundUp(this.getYTDEarnings() + netPay));
         // Update the Employee's YTDTaxesPaid
-        this.setYTDTaxesPaid(decimalRoundUp(this.ytdTaxesPaid + taxes));
+        this.setYTDTaxesPaid(decimalRoundUp(this.getYTDTaxesPaid() + taxes));
 
-        return new PayStub(this.name, netPay, taxes, this.getYTDEarnings(), this.getYTDTaxesPaid());
+        return new PayStub(this.getName(), netPay, taxes, this.getYTDEarnings(), this.getYTDTaxesPaid());
     }
 
 }
