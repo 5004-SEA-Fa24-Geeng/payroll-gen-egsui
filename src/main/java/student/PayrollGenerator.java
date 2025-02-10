@@ -94,7 +94,7 @@ public final class PayrollGenerator {
                     List<IEmployee> target = employees.stream()
                             .filter(employee -> employee.getID().equals(employeeID)).toList();
                     // Target employee ID should be unique.
-                    if (target.size() == 1) {
+                    if (!target.isEmpty()) {
                         IEmployee employee = target.get(0);
                         IPayStub payStub = employee.runPayroll(timeCard.getHoursWorked());
                         if (payStub != null) {
@@ -103,8 +103,8 @@ public final class PayrollGenerator {
                             throw new IllegalArgumentException("Employee "
                                     + employeeID + " unable to create a pay stub");
                         }
-                    } else if (target.size() > 1) {
-                        throw new IllegalArgumentException("There are more than one employee with the same ID");
+//                    } else if (target.size() > 1) {
+//                        throw new IllegalArgumentException("There are more than one employee with the same ID");
                     } else {
                         throw new IllegalArgumentException("There is no corresponding employee with the same ID");
                     }
