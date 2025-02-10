@@ -42,12 +42,11 @@ public class HourlyEmployee extends Employee {
 
         // Employee who works not over max working hours, pay = workedHours * payRate - pretaxDeductions
         if (hoursWorked <= maxWorkHours) {
-            grossPay = hoursWorked * getPayRate() - getPretaxDeductions();
+            grossPay = hoursWorked * getPayRate();
         } else {
             // Employee who works over max working hours, the overtime work hours should apply new pay rate
             // grossPay = maxWorkHours * payRate - pretaxDeductions + (workedHours - maxWorkHours) * overWorkPayRate
-            grossPay = maxWorkHours * getPayRate() + (hoursWorked - maxWorkHours) * getPayRate() * overWorkPayRate
-                    - getPretaxDeductions();
+            grossPay = maxWorkHours * getPayRate() + (hoursWorked - maxWorkHours) * getPayRate() * overWorkPayRate;
         }
         return grossPay;
     }

@@ -33,7 +33,7 @@ public class SalaryEmployee extends Employee {
     @Override
     protected double calculateGrossPay(double hoursWorked) {
         // grossPay = payRate / salaryWorkWeeks - pretaxDeductions
-        return  (this.getPayRate() / salaryWorkWeeks) - this.getPretaxDeductions();
+        return  (this.getPayRate() / salaryWorkWeeks);
     }
 
 }

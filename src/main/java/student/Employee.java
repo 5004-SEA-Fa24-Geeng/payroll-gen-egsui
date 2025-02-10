@@ -154,14 +154,14 @@ public abstract class Employee implements IEmployee {
      */
     @Override
     public IPayStub runPayroll(double hoursWorked) throws IllegalArgumentException {
-        if (hoursWorked <= 0) {
+        if (hoursWorked < 0) {
             throw new IllegalArgumentException("Worked hours must be greater than 0");
         } else {
             double netPay;
             double taxes;
             double grossPay;
 
-            grossPay = calculateGrossPay(hoursWorked);
+            grossPay = calculateGrossPay(hoursWorked) - this.getPretaxDeductions();
             taxes = decimalRoundUp(grossPay * taxRate);
             // Final net pay is calculated as pay - pretaxDeductions - taxes
             netPay = decimalRoundUp(grossPay - taxes);
