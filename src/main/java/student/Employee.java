@@ -166,9 +166,9 @@ public abstract class Employee implements IEmployee {
             // Final net pay is calculated as pay - pretaxDeductions - taxes
             netPay = decimalRoundUp(grossPay - taxes);
             // Update the Employee's YTDEarnings
-            setYTDEarnings(decimalRoundUp(this.getYTDEarnings() + netPay));
+            this.ytdEarnings = decimalRoundUp(this.getYTDEarnings() + netPay);
             // Update the Employee's YTDTaxesPaid
-            setYTDTaxesPaid(decimalRoundUp(this.getYTDTaxesPaid() + taxes));
+            this.ytdTaxesPaid = decimalRoundUp(this.getYTDTaxesPaid() + taxes);
 
             return new PayStub(this.getName(), netPay, taxes, this.getYTDEarnings(), this.getYTDTaxesPaid());
         }
