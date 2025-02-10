@@ -195,6 +195,7 @@ classDiagram
     PayrollGenerator --> IEmployee : uses
     Builder --> IEmployee : creates
     Builder --> ITimeCard : creates
+    PayrollGenerator --> ITimeCard : uses
     IEmployee <|-- Employee: implements
     ITimeCard <|-- TimeCard: implements
     Employee <|-- HourlyEmployee : extends
