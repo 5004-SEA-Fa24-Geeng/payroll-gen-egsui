@@ -13,12 +13,12 @@ public class SalaryEmployee extends Employee {
      * @param name  the employee's name
      * @param id    the employee's ID
      * @param payRate   the employee's pay rate
-     * @param pretaxDeductions  the employee's pretax deductions
      * @param ytdEarnings   the employee's YTD earnings
      * @param ytdTaxesPaid  the employee's YTD Paid Taxes
+     * @param pretaxDeductions  the employee's pretax deductions
      */
-    public SalaryEmployee(String name, String id, double payRate, double pretaxDeductions,
-                          double ytdEarnings, double ytdTaxesPaid) {
+    public SalaryEmployee(String name, String id, double payRate, double ytdEarnings,
+                          double ytdTaxesPaid, double pretaxDeductions) {
         super(name, id, payRate, pretaxDeductions, ytdEarnings, ytdTaxesPaid);
         // set employeeType for our new SalaryEmployee
         this.setEmployeeType(EmployeeType.SALARY.name());

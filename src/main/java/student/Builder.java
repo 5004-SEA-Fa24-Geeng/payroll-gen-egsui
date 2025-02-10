@@ -49,9 +49,9 @@ public final class Builder {
         // Build the appropriate employee object
         switch (EmployeeType.valueOf(parts[0])) {
             case HOURLY:
-                return new HourlyEmployee(parts[1], parts[2], payRate, pretaxDeductions, ytdEarnings, ytdTaxesPaid);
+                return new HourlyEmployee(parts[1], parts[2], payRate, ytdEarnings, ytdTaxesPaid, pretaxDeductions);
             case SALARY:
-                return new SalaryEmployee(parts[1], parts[2], payRate, pretaxDeductions, ytdEarnings, ytdTaxesPaid);
+                return new SalaryEmployee(parts[1], parts[2], payRate, ytdEarnings, ytdTaxesPaid, pretaxDeductions);
             default:
                 throw new IllegalArgumentException("Unknown employee type " + parts[0]);
         }

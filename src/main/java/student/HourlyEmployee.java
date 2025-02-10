@@ -18,12 +18,12 @@ public class HourlyEmployee extends Employee {
      * @param name  the employee's name
      * @param id    the employee's ID
      * @param payRate   the employee's pay rate
-     * @param pretaxDeductions  the employee's pretax deductions
      * @param ytdEarnings   the employee's YTD earnings
      * @param ytdTaxesPaid  the employee's YTD Paid Taxes
+     * @param pretaxDeductions  the employee's pretax deductions
      */
-    public HourlyEmployee(String name, String id, double payRate, double pretaxDeductions,
-                          double ytdEarnings, double ytdTaxesPaid) {
+    public HourlyEmployee(String name, String id, double payRate, double ytdEarnings,
+                          double ytdTaxesPaid, double pretaxDeductions) {
         super(name, id, payRate, pretaxDeductions, ytdEarnings, ytdTaxesPaid);
         // set employeeType for our new HourlyEmployee
         this.setEmployeeType(EmployeeType.HOURLY.name());

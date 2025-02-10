@@ -12,9 +12,9 @@ class SalaryEmployeeTest {
     @BeforeEach
     void setUp() {
         salaryEmployee1 = new SalaryEmployee("TestNameOne", "ID123456",
-                60000, 300,12000,4000);
+                60000,12000,4000, 300);
         salaryEmployee2 = new SalaryEmployee("TestNameTwo", "ID000",
-                200000, 400,5000,3000);
+                200000,5000,3000, 400);
     }
 
     @Test
