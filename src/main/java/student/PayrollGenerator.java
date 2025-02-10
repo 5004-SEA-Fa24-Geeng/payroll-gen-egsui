@@ -89,22 +89,21 @@ public final class PayrollGenerator {
         //YOUR CODE HERE
         if (employees != null && timeCardList != null) {
             for (ITimeCard timeCard : timeCardList) {
-                String employeeID = timeCard.getEmployeeID();
                 try {
                     List<IEmployee> target = employees.stream()
-                            .filter(employee -> employee.getID().equals(employeeID)).toList();
+                            .filter(employee -> employee.getID().equals(timeCard.getEmployeeID())).toList();
                     // Target employee ID should be unique.
-                    if (!target.isEmpty()) {
+                    if (target.size() == 1) {
                         IEmployee employee = target.get(0);
                         IPayStub payStub = employee.runPayroll(timeCard.getHoursWorked());
                         if (payStub != null) {
                             payStubs.add(payStub);
                         } else {
                             throw new IllegalArgumentException("Employee "
-                                    + employeeID + " unable to create a pay stub");
+                                    + timeCard.getEmployeeID() + " unable to create a pay stub");
                         }
-//                    } else if (target.size() > 1) {
-//                        throw new IllegalArgumentException("There are more than one employee with the same ID");
+                    } else if (target.size() > 1) {
+                        throw new IllegalArgumentException("There are more than one employee with the same ID");
                     } else {
                         throw new IllegalArgumentException("There is no corresponding employee with the same ID");
                     }

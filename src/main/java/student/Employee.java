@@ -160,17 +160,19 @@ public abstract class Employee implements IEmployee {
             double netPay;
             double taxes;
             double grossPay;
+            double finalNetPay;
 
-            grossPay = calculateGrossPay(hoursWorked) - this.getPretaxDeductions();
-            taxes = decimalRoundUp(grossPay * taxRate);
+            grossPay = calculateGrossPay(hoursWorked);
             // Final net pay is calculated as pay - pretaxDeductions - taxes
-            netPay = decimalRoundUp(grossPay - taxes);
+            netPay = grossPay - this.getPretaxDeductions();
+            taxes = decimalRoundUp(netPay * taxRate);
+            finalNetPay = decimalRoundUp(netPay - taxes);
             // Update the Employee's YTDEarnings
-            setYTDEarnings(decimalRoundUp(this.getYTDEarnings() + netPay));
+            this.setYTDEarnings(this.getYTDEarnings() + finalNetPay);
             // Update the Employee's YTDTaxesPaid
-            setYTDTaxesPaid(decimalRoundUp(this.getYTDTaxesPaid() + taxes));
+            this.setYTDTaxesPaid(this.getYTDTaxesPaid() + taxes);
 
-            return new PayStub(this.getName(), netPay, taxes, this.getYTDEarnings(), this.getYTDTaxesPaid());
+            return new PayStub(this.getName(), finalNetPay, taxes, this.getYTDEarnings(), this.getYTDTaxesPaid());
         }
     }
 

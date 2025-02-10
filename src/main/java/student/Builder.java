@@ -29,6 +29,7 @@ public final class Builder {
             // Provides more or less information
             throw new IllegalArgumentException("Invalid data length.");
         }
+        EmployeeType employeeType = EmployeeType.valueOf(parts[0]);
         double payRate;
         double pretaxDeductions;
         double ytdEarnings;
@@ -47,13 +48,13 @@ public final class Builder {
             throw new NumberFormatException(e.getMessage());
         }
         // Build the appropriate employee object
-        switch (EmployeeType.valueOf(parts[0])) {
+        switch (employeeType) {
             case HOURLY:
                 return new HourlyEmployee(parts[1], parts[2], payRate, ytdEarnings, ytdTaxesPaid, pretaxDeductions);
             case SALARY:
                 return new SalaryEmployee(parts[1], parts[2], payRate, ytdEarnings, ytdTaxesPaid, pretaxDeductions);
             default:
-                throw new IllegalArgumentException("Unknown employee type " + parts[0]);
+                throw new IllegalArgumentException("Unknown employee type " + employeeType);
         }
     }
 
