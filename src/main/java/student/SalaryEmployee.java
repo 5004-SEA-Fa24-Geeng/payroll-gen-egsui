@@ -1,12 +1,12 @@
 package student;
 
 /**
- * A class SalaryEmployee extends Employee
+ * A class SalaryEmployee extends Employee.
  */
 public class SalaryEmployee extends Employee {
 
     /**
-     * Constructor for SalaryEmployee
+     * Constructor for SalaryEmployee.
      * @param name  the employee's name
      * @param ID    the employee's ID
      * @param payRate   the employee's pay rate
@@ -29,15 +29,16 @@ public class SalaryEmployee extends Employee {
      * @param hoursWorked   the hours worked for the pay period
      * @return  the pay stub for the current pay period
      */
+    @Override
     protected IPayStub calculateGrossPay(double hoursWorked) {
         // pay = payRate / salaryWorkWeeks - pretaxDeductions
         double pay = decimalRoundUp((this.payRate / salaryWorkWeeks) - this.pretaxDeductions);
         double taxes = decimalRoundUp(pay * taxRate);
         double netPay = decimalRoundUp(pay - taxes);
         // Update the Employee's YTDEarnings
-        this.setYTDEarnings(decimalRoundUp(this.YTDEarnings + netPay));
+        this.setYTDEarnings(decimalRoundUp(this.ytdEarnings + netPay));
         // Update the Employee's YTDTaxesPaid
-        this.setYTDTaxesPaid(decimalRoundUp(this.YTDTaxesPaid + taxes));
+        this.setYTDTaxesPaid(decimalRoundUp(this.ytdTaxesPaid + taxes));
 
         return new PayStub(this.name, netPay, taxes, this.getYTDEarnings(), this.getYTDTaxesPaid());
     }

@@ -6,31 +6,49 @@ import java.math.RoundingMode;
 /**
  * An abstract class for implementing general methods for Employee.
  */
-public abstract class Employee implements IEmployee{
-    // taxes are calculated as 1.45% for medicare, 6.2% for social security, and 15% for withholding. or 22.65% total.
-    protected final double taxRate = 0.2265;
-    protected static double overWorkPayRate = 1.50;
+public abstract class Employee implements IEmployee {
+
+    /** taxRate are calculated as 1.45% for medicare, 6.2% for social security,
+     *  and 15% for withholding. or 22.65% total.*/
+    protected static double taxRate = 0.2265;
+    /** Maximum work hours are 40 */
     protected static double maxWorkHours = 40;
+    /** overworked hours should be paid by PayRate * 1.5 */
+    protected static double overWorkPayRate = 1.50;
+    /** The pay for SalaryEmployee is the payRate divided by 24 weeks. */
     protected static double salaryWorkWeeks = 24;
-    protected String employeeType, name, ID;
-    protected double payRate, pretaxDeductions, YTDEarnings, YTDTaxesPaid;
+    /** Employee's type */
+    protected String employeeType;
+    /** Employee's name */
+    protected String name;
+    /** Employee's ID */
+    protected String id;
+    /** Employee's pay rate */
+    protected double payRate;
+    /** Employee's pretax deductions */
+    protected double pretaxDeductions;
+    /** Employee's YTD earnings */
+    protected double ytdEarnings;
+    /** Employee's YTD paid taxes */
+    protected double ytdTaxesPaid;
+
     /**
      * Constructor for Employee
      * @param name  the employee's name
-     * @param ID    the employee's ID
+     * @param id    the employee's ID
      * @param payRate   pay rate for the employee
      * @param pretaxDeductions  pretax deductions for the employee
      * @param YTDEarnings   the employee's YTD earnings
      * @param YTDTaxesPaid  the employee's YTD paid taxes
      */
-    public Employee(String name, String ID, double payRate, double pretaxDeductions,
+    public Employee(String name, String id, double payRate, double pretaxDeductions,
                        double YTDEarnings, double YTDTaxesPaid) {
         this.name = name;
-        this.ID = ID;
+        this.id = id;
         this.payRate = payRate;
         this.pretaxDeductions = pretaxDeductions;
-        this.YTDEarnings = YTDEarnings;
-        this.YTDTaxesPaid = YTDTaxesPaid;
+        this.ytdEarnings = YTDEarnings;
+        this.ytdTaxesPaid = YTDTaxesPaid;
     }
 
     /**
@@ -50,7 +68,7 @@ public abstract class Employee implements IEmployee{
      */
     @Override
     public String getID() {
-        return this.ID;
+        return this.id;
     }
 
     /**
@@ -81,7 +99,7 @@ public abstract class Employee implements IEmployee{
      */
     @Override
     public double getYTDEarnings() {
-        return this.YTDEarnings;
+        return this.ytdEarnings;
     }
 
     /**
@@ -91,7 +109,7 @@ public abstract class Employee implements IEmployee{
      */
     @Override
     public double getYTDTaxesPaid() {
-        return this.YTDTaxesPaid;
+        return this.ytdTaxesPaid;
     }
 
     /**
@@ -117,13 +135,13 @@ public abstract class Employee implements IEmployee{
      */
     @Override
     public String toCSV() {
-        return this.employeeType + "," + this.name + "," + this.ID + "," +
-                this.payRate + "," + this.pretaxDeductions + "," +
-                this.YTDEarnings + "," + this.YTDTaxesPaid;
+        return this.employeeType + "," + this.name + "," + this.id + ","
+                + this.payRate + "," + this.pretaxDeductions + ","
+                + this.ytdEarnings + "," + this.ytdTaxesPaid;
     }
 
     /**
-     * Calculates the gross pay of the employee
+     * Calculates the gross pay of the employee.
      * @param hoursWorked   the hours worked for the pay period
      * @return  the pay stub for the current pay period
      */
@@ -148,7 +166,7 @@ public abstract class Employee implements IEmployee{
     }
 
     /**
-     * A method to round up the double value by BigDecimal
+     * A method to round up the double value by BigDecimal.
      * @param val  the double value needed to be set scale
      * @return  the rounded double value
      */
@@ -158,7 +176,7 @@ public abstract class Employee implements IEmployee{
     }
 
     /**
-     * Set the employee's type
+     * Set the employee's type.
      * @param employeeType  the employee's type
      */
     protected void setEmployeeType(String employeeType) {
@@ -172,19 +190,19 @@ public abstract class Employee implements IEmployee{
     }
 
     /**
-     * Set the employee's YTD earnings
+     * Set the employee's YTD earnings.
      * @param YTDEarnings  the employee's YTD earnings
      */
     protected void setYTDEarnings(double YTDEarnings) {
-        this.YTDEarnings = YTDEarnings;
+        this.ytdEarnings = YTDEarnings;
     }
 
     /**
-     * Set the employee's YTD paid taxes
+     * Set the employee's YTD paid taxes.
      * @param YTDTaxesPaid  the employee's YTD paid taxes
      */
     protected void setYTDTaxesPaid(double YTDTaxesPaid) {
-        this.YTDTaxesPaid = YTDTaxesPaid;
+        this.ytdTaxesPaid = YTDTaxesPaid;
     }
 
 }

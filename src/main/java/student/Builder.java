@@ -29,26 +29,29 @@ public final class Builder {
             // Provides more or less information
             throw new IllegalArgumentException("Invalid data length.");
         }
-        double payRate, pretaxDeductions, YTDEarnings, YTDTaxesPaid;
+        double payRate;
+        double pretaxDeductions;
+        double ytdEarnings;
+        double ytdTaxesPaid;
         try {
             payRate = Double.parseDouble(parts[3]);
             pretaxDeductions = Double.parseDouble(parts[4]);
-            YTDEarnings = Double.parseDouble(parts[5]);
-            YTDTaxesPaid = Double.parseDouble(parts[6]);
+            ytdEarnings = Double.parseDouble(parts[5]);
+            ytdTaxesPaid = Double.parseDouble(parts[6]);
             // Check double numbers cannot be negative
-            if (payRate < 0 || pretaxDeductions < 0 || YTDEarnings < 0 || YTDTaxesPaid < 0) {
+            if (payRate < 0 || pretaxDeductions < 0 || ytdEarnings < 0 || ytdTaxesPaid < 0) {
                 throw new IllegalArgumentException("Negative value found in numeric fields.");
             }
-        } catch(NumberFormatException e) {
+        } catch (NumberFormatException e) {
             // catch around converting strings to doubles
             throw new NumberFormatException(e.getMessage());
         }
         // Build the appropriate employee object
         switch (EmployeeType.valueOf(parts[0])) {
             case HOURLY:
-                return new HourlyEmployee(parts[1], parts[2], payRate, pretaxDeductions, YTDEarnings, YTDTaxesPaid);
+                return new HourlyEmployee(parts[1], parts[2], payRate, pretaxDeductions, ytdEarnings, ytdTaxesPaid);
             case SALARY:
-                return new SalaryEmployee(parts[1], parts[2], payRate, pretaxDeductions, YTDEarnings, YTDTaxesPaid);
+                return new SalaryEmployee(parts[1], parts[2], payRate, pretaxDeductions, ytdEarnings, ytdTaxesPaid);
             default:
                 throw new IllegalArgumentException("Unknown employee type " + parts[0]);
         }

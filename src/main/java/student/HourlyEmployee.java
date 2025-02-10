@@ -1,22 +1,22 @@
 package student;
 
 /**
- * A class HourlyEmployee extends Employee
+ * A class HourlyEmployee extends Employee.
  */
 public class HourlyEmployee extends Employee {
 
     /**
-     * Constructor for HourlyEmployee
+     * Constructor for HourlyEmployee.
      * @param name  the employee's name
-     * @param ID    the employee's ID
+     * @param id    the employee's ID
      * @param payRate   the employee's pay rate
      * @param pretaxDeductions  the employee's pretax deductions
-     * @param YTDEarnings   the employee's YTD earnings
-     * @param YTDTaxesPaid  the employee's YTD Paid Taxes
+     * @param ytdEarnings   the employee's YTD earnings
+     * @param ytdTaxesPaid  the employee's YTD Paid Taxes
      */
-    public HourlyEmployee(String name, String ID, double payRate,double pretaxDeductions,
-                          double YTDEarnings, double YTDTaxesPaid) {
-        super(name, ID, payRate, pretaxDeductions, YTDEarnings, YTDTaxesPaid);
+    public HourlyEmployee(String name, String id, double payRate, double pretaxDeductions,
+                          double ytdEarnings, double ytdTaxesPaid) {
+        super(name, id, payRate, pretaxDeductions, ytdEarnings, ytdTaxesPaid);
         // set employeeType for our new HourlyEmployee
         this.setEmployeeType(EmployeeType.HOURLY.name());
     }
@@ -32,23 +32,26 @@ public class HourlyEmployee extends Employee {
      */
     @Override
     protected IPayStub calculateGrossPay(double hoursWorked) {
-        double pay, netPay, taxes;
+        double pay;
+        double netPay;
+        double taxes;
         // Employee who works not over max working hours, pay = workedHours * payRate - pretaxDeductions
         if (hoursWorked <= maxWorkHours) {
             pay = decimalRoundUp(hoursWorked * getPayRate() - getPretaxDeductions());
-        // Employee who works over max working hours, the overtime work hours should apply new pay rate
-        // pay = maxWorkHours * payRate - pretaxDeductions + (workedHours - maxWorkHours) * overWorkPayRate
         } else {
-            pay = decimalRoundUp(maxWorkHours * getPayRate()) +
-                    decimalRoundUp((hoursWorked - maxWorkHours) * getPayRate() * overWorkPayRate - getPretaxDeductions());
+            // Employee who works over max working hours, the overtime work hours should apply new pay rate
+            // pay = maxWorkHours * payRate - pretaxDeductions + (workedHours - maxWorkHours) * overWorkPayRate
+            pay = decimalRoundUp(maxWorkHours * getPayRate())
+                    + decimalRoundUp((hoursWorked - maxWorkHours) * getPayRate() * overWorkPayRate
+                            - getPretaxDeductions());
         }
         taxes = decimalRoundUp(pay * taxRate);
         // Final net pay is calculated as pay - pretaxDeductions - taxes
         netPay = decimalRoundUp(pay - taxes);
         // Update the Employee's YTDEarnings
-        this.setYTDEarnings(decimalRoundUp(this.YTDEarnings + netPay));
+        this.setYTDEarnings(decimalRoundUp(this.ytdEarnings + netPay));
         // Update the Employee's YTDTaxesPaid
-        this.setYTDTaxesPaid(decimalRoundUp(this.YTDTaxesPaid + taxes));
+        this.setYTDTaxesPaid(decimalRoundUp(this.ytdTaxesPaid + taxes));
 
         return new PayStub(this.name, netPay, taxes, this.getYTDEarnings(), this.getYTDTaxesPaid());
     }
