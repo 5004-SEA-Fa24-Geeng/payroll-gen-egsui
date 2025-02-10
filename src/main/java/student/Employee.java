@@ -131,9 +131,9 @@ public abstract class Employee implements IEmployee {
      */
     @Override
     public String toCSV() {
-        return this.employeeType + "," + this.name + "," + this.id + ","
-                + this.payRate + "," + this.pretaxDeductions + ","
-                + this.ytdEarnings + "," + this.ytdTaxesPaid;
+        return this.getEmployeeType() + "," + this.getName() + "," + this.getID() + ","
+                + this.getPayRate() + "," + this.getPretaxDeductions() + ","
+                + this.getYTDEarnings() + "," + this.getYTDTaxesPaid();
     }
 
     /**
