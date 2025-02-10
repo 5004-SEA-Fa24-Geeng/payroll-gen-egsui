@@ -2,7 +2,6 @@ package student;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Objects;
 
 /**
  * An abstract class for implementing general methods for Employee.
@@ -24,7 +23,7 @@ public abstract class Employee implements IEmployee{
      * @param YTDEarnings   the employee's YTD earnings
      * @param YTDTaxesPaid  the employee's YTD paid taxes
      */
-    protected Employee(String name, String ID, double payRate, double pretaxDeductions,
+    public Employee(String name, String ID, double payRate, double pretaxDeductions,
                        double YTDEarnings, double YTDTaxesPaid) {
         this.name = name;
         this.ID = ID;
