@@ -79,8 +79,8 @@ classDiagram
 
     class Builder {
         - Builder()
-        + buildEmployeeFromCSV(String csv) IEmployee
-        + buildTimeCardFromCSV(String csv) ITimeCard
+        + static buildEmployeeFromCSV(String csv) IEmployee
+        + static buildTimeCardFromCSV(String csv) ITimeCard
     }
 
     class FileUtil {
@@ -88,6 +88,8 @@ classDiagram
         + static final String PAY_STUB_HEADER
         - FileUtil()
         + static readFileToList(String file) List<String>
+        + static writeFile(String outFile, List<String> lines) void
+        + static writeFile(String outFile, List<String> lines, boolean backup) void
     }
 
     class IEmployee {
@@ -104,19 +106,15 @@ classDiagram
 
     class Employee {
         <<abstract>>
-        # Employee reference
-        # final double taxRate
-        + static double overWorkPayRate
-        + static double maxWorkHours
-        + static double salaryWorkWeeks
-        + String employeeType
-        + String name
-        + String ID
-        + double payRate
-        + double pretaxDeductions
-        + double YTDEarnings
-        + double YTDTaxesPaid
-        + Employee(String name, String ID, double payRate, double pretaxDeductions, double YTDEarnings, double YTDTaxesPaid)
+        - final String name
+        - final String ID
+        - final double payRate
+        - final double pretaxDeductions
+        - final double YTDEarnings
+        - final double YTDTaxesPaid
+        - final EmployeeType employeeType
+        - static double taxRate
+        + Employee(String name, String ID, double payRate, double pretaxDeductions, double YTDEarnings, double YTDTaxesPaid, EmployeeType employeeType)
         + getName() String
         + getID() String
         + getPayRate() double
@@ -125,22 +123,24 @@ classDiagram
         + getYTDTaxesPaid() double
         + getPretaxDeductions() double
         + toCSV() String
-        # abstract calculateGrossPay(double hoursWorked) IPayStub
+        # abstract calculateGrossPay(double hoursWorked) double
         + runPayroll(double hoursWorked) IPayStub
         + decimalRoundUp(double val) double
-        # setEmployeeType(String employeeType) void
-        # setYTDEarnings(double YTDEarnings) void
-        # setYTDTaxesPaid(double YTDTaxesPaid) void
+        + setYTDEarnings(double YTDEarnings) void
+        + setYTDTaxesPaid(double YTDTaxesPaid) void
     }
 
     class HourlyEmployee {
-        + HourlyEmployee(String name, String ID, double payRate,double pretaxDeductions, double YTDEarnings, double YTDTaxesPaid)
-        # calculateGrossPay(double hoursWorked) IPayStub
+        - double maxWorkHours
+        - double overWorkPayRate
+        + HourlyEmployee(String name, String id, double payRate, double ytdEarnings,double ytdTaxesPaid, double pretaxDeductions)
+        # calculateGrossPay(double hoursWorked) double
     }
 
     class SalaryEmployee {
-        + SalaryEmployee(String name, String ID, double payRate, double pretaxDeductions, double YTDEarnings, double YTDTaxesPaid)
-        # calculateGrossPay(double hoursWorked) IPayStub
+        - final double salaryWorkWeeks
+        + SalaryEmployee(String name, String id, double payRate, double ytdEarnings,double ytdTaxesPaid, double pretaxDeductions)
+        # calculateGrossPay(double hoursWorked) double
     }
 
     class EmployeeType {
@@ -159,11 +159,11 @@ classDiagram
     }
 
     class PayStub {
-        # String name
-        # double netPay
-        # double taxes
-        # double ytdEarnings
-        # double ytdTaxesPaid
+        - String name
+        - double netPay
+        - double taxes
+        - double ytdEarnings
+        - double ytdTaxesPaid
         + PayStub(String employeeName,double netPay, double taxes, double ytdEarnings, double ytdTaxesPaid)
         + getPay() double
         + getTaxesPaid() double
@@ -179,8 +179,8 @@ classDiagram
     }
 
     class TimeCard {
-        # String ID
-        # double hoursWorked
+        - final String ID
+        - final double hoursWorked
         + TimeCard(String ID, double hoursWorked)
         + getEmployeeID() String
         + getHoursWorked() double
@@ -198,12 +198,11 @@ classDiagram
     IEmployee <|-- Employee: implements
     ITimeCard <|-- TimeCard: implements
     Employee <|-- HourlyEmployee : extends
+    Employee --> IPayStub : creates
     Builder --> EmployeeType : uses
     EmployeeType <-- Employee : uses
     Employee <|-- SalaryEmployee : extends
     IPayStub <|-- PayStub : implements
-    SalaryEmployee --> IPayStub : creates
-    HourlyEmployee --> IPayStub : creates
 
 
 ```
@@ -221,3 +220,18 @@ classDiagram
 > The value of reflective writing has been highly researched and documented within computer science, from learning new information to showing higher salaries in the workplace. For this next part, we encourage you to take time, and truly focus on your retrospective.
 
 Take time to reflect on how your design has changed. Write in *prose* (i.e. do not bullet point your answers - it matters in how our brain processes the information). Make sure to include what were some major changes, and why you made them. What did you learn from this process? What would you do differently next time? What was the most challenging part of this process? For most students, it will be a paragraph or two. 
+
+At first, I didn't understand the purpose of using abstract class well, and I was hurried to implement it without 
+drawing a comprehensive UML diagram. I designed an Employee class and an abstract employee class to separate the fields
+of the employee and the general methods into two independent classes. However, I discovered this approach doesn't reach 
+a good code reusability. The Employee class only stored the fields of employee and had nothing else functionality, which 
+is a redundant process. Therefore, I combined these two classes into an Employee abstract class. 
+The most challenging part of this process is to give up the written codes. It was hard to modify the code base and
+merge two classes into one without causing conflicts in the present application. Every step changed led to affecting
+the usage of variables and methods. If there was a single neckless, the application executed incorrectly. It took me
+lots of time and efforts optimizing the code base and completing the modification. After modifying, the code base became 
+more neat and the attributes and methods of an employee could be accessed in one class, making the application more 
+efficient. 
+
+The lesson I learned from this process is drawing a comprehensive UML diagram first and going through the 
+flow, then implementing it. If we implement first, the efforts taken to modify codes will be much more than to redraw a UML diagram.
