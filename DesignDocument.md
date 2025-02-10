@@ -6,8 +6,8 @@ This document is meant to provide a tool for you to demonstrate the design proce
 
 ## (INITIAL DESIGN): Class Diagram
 
-Place your class diagram below. Make sure you check the fil in the browser on github.com to make sure it is rendering correctly. If it is not, you will need to fix it. As a reminder, here is a link to tools that can help you create a class diagram: [Class Resources: Class Design Tools](https://github.com/CS5004-khoury-lionelle/Resources?tab=readme-ov-file#uml-design-tools)
-
+Place your class diagram below. Make sure you check the fil in the browser on github.com to make sure it is rendering correctly. If it is not, you will need to fix it. As a reminder, here is a link to tools that can help you create a class diagram: [Class Resources: Class Design Tools](https://github.com/CS5004-khoury-lionelle/Resources?tab=readme-ov-file#uml-design-tools) \
+![Initial Design](https://github.com/5004-SEA-Fa24-Geeng/payroll-gen-egsui/blob/main/UMLDiagram/mermaid-diagram-original.png?raw=true)
 
 
 
@@ -26,15 +26,187 @@ Write a test (in english) that you can picture for the class diagram you have cr
 
 You should feel free to number your brainstorm. 
 
-1. Test that the `Employee` class properly returns `name` from `getName()`
-2. Test that the `Employee` class properly returns `id` from `getId()`
-3. continue to add your brainstorm here (you don't need to super formal - this is a brainstorm) - yes, you can change the bullets above to something that fits your design.
+1. Test that the `ITimeCard` class properly returns `id` from `getEmployeeID()`
+2. Test that the `ITimeCard` class properly returns `hours Worked` from `getHoursWorked()`
+3. Test that the `FieUtil` class properly prints the error message when IOException raised from `ReadFileToList`
+4. Test that the `FieUtil` class properly prints the error message when IOException raised from `WriteFile`
+5. Test that the `EmployeeTyoe` enum class properly returns `value` 
+6. Test that the `EmployeeTyoe` enum class properly returns `string` from `toString()`
+7. Test that the `HourlyEmployee`, `SalaryEmployee` class properly returns `name` from `getName()`
+8. Test that the `HourlyEmployee`, `SalaryEmployee` class properly returns `id` from `getId()`
+9. Test that the `HourlyEmployee`, `SalaryEmployee` class properly returns `pay Rate` from `getPayRate()`
+10. Test that the `HourlyEmployee`, `SalaryEmployee` class properly returns `employee Type` from `getEmployeeType()`
+11. Test that the `HourlyEmployee`, `SalaryEmployee` class properly sets `employee Type` from `setEmployeeType()`
+12. Test that the `HourlyEmployee`, `SalaryEmployee` class properly returns `YTD Earnings` from `getYTDEarnings()`
+13. Test that the `HourlyEmployee`, `SalaryEmployee` class properly sets `YTD Earnings` from `setYTDEarnings()`
+14. Test that the `HourlyEmployee`, `SalaryEmployee` class properly returns `YTD paid taxes` from `getYTDTaxesPaid()`
+15. Test that the `HourlyEmployee`, `SalaryEmployee` class properly sets `YTD paid taxes` from `setYTDTaxesPaid()`
+16. Test that the `HourlyEmployee`, `SalaryEmployee` class properly returns `PretaxDeductions` from `getPretaxDeductions()`
+17. Test that the `HourlyEmployee`, `SalaryEmployee` class properly returns `CSV string` from `toCSV()`
+18. Test that the `HourlyEmployee`, `SalaryEmployee` class properly generates `IPayStub` from `runPayroll()`
+19. Test that the `HourlyEmployee`, `SalaryEmployee` class properly sets decimal scale `value` from `decimalRoundUp()`
+20. Test that the `PayrollGenerator`class properly generates files `employees.csv` and `pay_stubs.csv` from `PayrollGenerator`
 
 
 
 ## (FINAL DESIGN): Class Diagram
 
 Go through your completed code, and update your class diagram to reflect the final design. Make sure you check the file in the browser on github.com to make sure it is rendering correctly. It is normal that the two diagrams don't match! Rarely (though possible) is your initial design perfect. 
+```mermaid
+---
+title: Payroll Generator UML
+---
+classDiagram
+    class PayrollGenerator {
+        - static final String DEFAULT_EMPLOYEE_FILE
+        - static final String DEFAULT_PAYROLL_FILE
+        - static final String DEFAULT_TIME_CARD_FILE
+        - PayrollGenerator()
+        + static main(String[] args) void
+    }
+
+    class Arguments {
+        - String employeeFile
+        - String payrollFile
+        - String timeCards
+        - Arguments()
+        + getEmployeeFile() String
+        + getPayrollFile() String
+        + getTimeCards() String
+        + printHelp() void
+        + static process(String[] args) Arguments
+    }
+
+    class Builder {
+        - Builder()
+        + buildEmployeeFromCSV(String csv) IEmployee
+        + buildTimeCardFromCSV(String csv) ITimeCard
+    }
+
+    class FileUtil {
+        + static final String EMPLOYEE_HEADER
+        + static final String PAY_STUB_HEADER
+        - FileUtil()
+        + static readFileToList(String file) List<String>
+    }
+
+    class IEmployee {
+        <<interface>>
+        + getName() String
+        + getID() String
+        + getPayRate() double
+        + getYTDEarnings() double
+        + getYTDTaxesPaid() double
+        + getPretaxDeductions() double
+        + runPayroll(double hoursWorked) IPayStub
+        + toCSV() String
+    }
+
+    class Employee {
+        <<abstract>>
+        # Employee reference
+        # final double taxRate
+        + static double overWorkPayRate
+        + static double maxWorkHours
+        + static double salaryWorkWeeks
+        + String employeeType
+        + String name
+        + String ID
+        + double payRate
+        + double pretaxDeductions
+        + double YTDEarnings
+        + double YTDTaxesPaid
+        + Employee(String name, String ID, double payRate, double pretaxDeductions, double YTDEarnings, double YTDTaxesPaid)
+        + getName() String
+        + getID() String
+        + getPayRate() double
+        + getEmployeeType() String
+        + getYTDEarnings() double
+        + getYTDTaxesPaid() double
+        + getPretaxDeductions() double
+        + toCSV() String
+        # abstract calculateGrossPay(double hoursWorked) IPayStub
+        + runPayroll(double hoursWorked) IPayStub
+        + decimalRoundUp(double val) double
+        # setEmployeeType(String employeeType) void
+        # setYTDEarnings(double YTDEarnings) void
+        # setYTDTaxesPaid(double YTDTaxesPaid) void
+    }
+
+    class HourlyEmployee {
+        + HourlyEmployee(String name, String ID, double payRate,double pretaxDeductions, double YTDEarnings, double YTDTaxesPaid)
+        # calculateGrossPay(double hoursWorked) IPayStub
+    }
+
+    class SalaryEmployee {
+        + SalaryEmployee(String name, String ID, double payRate, double pretaxDeductions, double YTDEarnings, double YTDTaxesPaid)
+        # calculateGrossPay(double hoursWorked) IPayStub
+    }
+
+    class EmployeeType {
+        <<enumeration>>
+        HOURLY
+        SALARY
+    }
+
+    class IPayStub {
+        <<interface>>
+        + getPay() double
+        + getTaxesPaid() double
+        + getYtdEarnings() double
+        + getYtdTaxesPaid() double
+        + toCSV() String
+    }
+
+    class PayStub {
+        # String name
+        # double netPay
+        # double taxes
+        # double ytdEarnings
+        # double ytdTaxesPaid
+        + PayStub(String employeeName,double netPay, double taxes, double ytdEarnings, double ytdTaxesPaid)
+        + getPay() double
+        + getTaxesPaid() double
+        + getYtdEarnings() double
+        + getYtdTaxesPaid() double
+        + toCSV() String
+    }
+
+    class ITimeCard {
+        <<interface>>
+        + getEmployeeID() String
+        + getHoursWorked() double
+    }
+
+    class TimeCard {
+        # String ID
+        # double hoursWorked
+        + TimeCard(String ID, double hoursWorked)
+        + getEmployeeID() String
+        + getHoursWorked() double
+    }
+
+
+
+
+    Arguments --|> PayrollGenerator : subclass
+    PayrollGenerator --> Builder : uses
+    PayrollGenerator --> FileUtil : uses
+    PayrollGenerator --> IEmployee : uses
+    Builder --> IEmployee : creates
+    Builder --> ITimeCard : creates
+    IEmployee <|-- Employee: implements
+    ITimeCard <|-- TimeCard: implements
+    Employee <|-- HourlyEmployee : extends
+    Builder --> EmployeeType : uses
+    EmployeeType <-- Employee : uses
+    Employee <|-- SalaryEmployee : extends
+    IPayStub <|-- PayStub : implements
+    SalaryEmployee --> IPayStub : creates
+    HourlyEmployee --> IPayStub : creates
+
+
+```
 
 > [!WARNING]
 > If you resubmit your assignment for manual grading, this is a section that often needs updating. You should double check with every resubmit to make sure it is up to date.

@@ -2,6 +2,7 @@ package student;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Objects;
 
 /**
  * An abstract class for implementing general methods for Employee.
@@ -9,11 +10,11 @@ import java.math.RoundingMode;
 public abstract class Employee implements IEmployee{
     // taxes are calculated as 1.45% for medicare, 6.2% for social security, and 15% for withholding. or 22.65% total.
     protected final double taxRate = 0.2265;
-    public static double overWorkPayRate = 1.50;
-    public static double maxWorkHours = 40;
-    public static double salaryWorkWeeks = 24;
-    public String employeeType, name, ID;
-    public double payRate, pretaxDeductions, YTDEarnings, YTDTaxesPaid;
+    protected static double overWorkPayRate = 1.50;
+    protected static double maxWorkHours = 40;
+    protected static double salaryWorkWeeks = 24;
+    protected String employeeType, name, ID;
+    protected double payRate, pretaxDeductions, YTDEarnings, YTDTaxesPaid;
     /**
      * Constructor for Employee
      * @param name  the employee's name
@@ -162,7 +163,13 @@ public abstract class Employee implements IEmployee{
      * @param employeeType  the employee's type
      */
     protected void setEmployeeType(String employeeType) {
-        this.employeeType = employeeType;
+        switch (EmployeeType.valueOf(employeeType)) {
+            case HOURLY, SALARY:
+                this.employeeType = employeeType;
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown employee type " + employeeType);
+        }
     }
 
     /**
